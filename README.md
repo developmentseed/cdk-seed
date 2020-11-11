@@ -6,20 +6,24 @@
 
 #### `npm run bootstrap`
 
-Install dependencies for each module.
+Install dependencies for each package.
 
 #### `npm run build`
 
-Build each module.
+Build each package.
 
 #### `npm run package`
 
-Package each module for distribution.
+Prepare each package for distribution.
 
 #### `npm run docgen`
 
-Generate documentation for each module.
+Generate documentation for each package.
 
-## Adding modules
+#### `npm test`
+
+Run tests for all packages.
+
+## Adding packages
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md).

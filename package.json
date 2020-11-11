@@ -2,6 +2,7 @@
   "name": "root",
   "license": "MIT",
   "devDependencies": {
+    "jest": "^26.6.3",
     "lerna": "^3.22.1"
   },
   "dependencies": {},
@@ -9,6 +10,7 @@
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "package": "lerna run package",
-    "docgen": "lerna run docgen"
+    "docgen": "lerna run docgen",
+    "test": "jest"
   }
 }
