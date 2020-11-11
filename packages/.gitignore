@@ -1,8 +1,8 @@
 # Build Artifacts
-*/.jsii
-*/.npmignore
-*/API.md
-*/dist
+.jsii
+.npmignore
 */lib/*.js
 */lib/index.d.ts
-*/tsconfig.json
+API.md
+dist
+tsconfig.json
