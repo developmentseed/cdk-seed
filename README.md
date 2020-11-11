@@ -4,19 +4,19 @@
 
 ### Commands
 
-#### `npx lerna bootstrap`
+#### `npm run bootstrap`
 
 Install dependencies for each module.
 
-#### `npx lerna run build`
+#### `npm run build`
 
 Build each module.
 
-#### `npx lerna run package`
+#### `npm run package`
 
 Package each module for distribution.
 
-#### `npx lerna run docgen`
+#### `npm run docgen`
 
 Generate documentation for each module.
 

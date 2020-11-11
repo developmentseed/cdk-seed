@@ -1,27 +1,14 @@
 {
   "name": "root",
-  "private": true,
+  "license": "MIT",
   "devDependencies": {
-    "cdkdx": "^0.6.17",
-    "lerna": "^3.22.1",
-    "typedoc": "^0.16.11",
-    "typedoc-plugin-lerna-packages": "^0.3.1"
+    "lerna": "^3.22.1"
   },
   "dependencies": {},
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "prepare": "FORCE_COLOR=1 lerna run build",
-    "test": "cdkdx test",
-    "build": "FORCE_COLOR=1 lerna run build",
-    "outdated:all": "yarn outdated",
-    "upgrade:all": "yarn upgrade",
-    "upgrade:cdk": "FORCE_COLOR=1 lerna run upgrade:cdk && yarn",
-    "upgrade-interactive:all": "yarn upgrade-interactive --latest",
-    "lint": "cdkdx lint --report-unused-disable-directives",
-    "lint:fix": "cdkdx lint --fix",
-    "docgen": "FORCE_COLOR=1 lerna run docgen --scope @cdk-seed/*",
-    "package": "FORCE_COLOR=1 lerna run package --scope @cdk-seed/*",
-    "release:npm": "FORCE_COLOR=1 lerna run release:npm --scope @cdk-seed/*",
-    "release:pypi": "FORCE_COLOR=1 lerna run release:pypi --scope @cdk-seed/*"
+    "build": "lerna run build",
+    "package": "lerna run package",
+    "docgen": "lerna run docgen"
   }
 }

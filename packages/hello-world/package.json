@@ -9,7 +9,7 @@
     "organization": false
   },
   "homepage": "https://github.com/developmentseed/cdk-seed#readme",
-  "license": "ISC",
+  "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "repository": {
