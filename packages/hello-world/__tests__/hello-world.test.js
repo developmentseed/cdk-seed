@@ -3,5 +3,5 @@
 const helloWorld = require('..');
 
 describe('hello-world', () => {
-    it('needs tests');
+    test.todo('needs tests');
 });
