@@ -1,0 +1,50 @@
+{
+  "name": "@cdk-seed/hello-world",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": {
+    "name": "Anthony Lukach",
+    "email": "anthony@developmentseed.org",
+    "url": "https://github.com/alukach",
+    "organization": false
+  },
+  "homepage": "https://github.com/developmentseed/cdk-seed#readme",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/developmentseed/cdk-seed.git"
+  },
+  "scripts": {
+    "build": "jsii",
+    "build:watch": "jsii -w",
+    "package": "jsii-pacmak",
+    "docgen": "jsii-docgen"
+  },
+  "bugs": {
+    "url": "https://github.com/developmentseed/cdk-seed/issues"
+  },
+  "stability": "stable",
+  "jsii": {
+    "outdir": "dist",
+    "versionFormat": "full",
+    "targets": {
+      "python": {
+        "distName": "cdk-seed.hello-world",
+        "module": "cdk_seed.hello_world"
+      }
+    }
+  },
+  "devDependencies": {
+    "jsii": "^1.14.1",
+    "jsii-docgen": "^1.4.84",
+    "jsii-pacmak": "^1.14.1"
+  },
+  "dependencies": {
+    "@aws-cdk/core": "^1.72.0"
+  },
+  "peerDependencies": {
+    "@aws-cdk/core": "^1.72.0"
+  }
+}

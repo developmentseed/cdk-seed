@@ -1,0 +1,8 @@
+# Build Artifacts
+*/.jsii
+*/.npmignore
+*/API.md
+*/dist
+*/lib/*.js
+*/lib/index.d.ts
+*/tsconfig.json
