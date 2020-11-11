@@ -12,5 +12,8 @@
     "package": "lerna run package",
     "docgen": "lerna run docgen",
     "test": "jest"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
