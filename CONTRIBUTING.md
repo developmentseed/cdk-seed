@@ -1,7 +1,7 @@
 # Contributing
 
 1. Create empty package: `npx lerna create @cdk-seed/<package-name>`
-1. Prepare package: `npx jsii-conf -p ./packages/<package-name>/package.json`
+1. Prepare package: `npx jsii-config-p ./packages/<package-name>/package.json`
 
 ## Additional Resources
 
