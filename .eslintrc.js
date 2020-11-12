@@ -3,6 +3,12 @@ module.exports = {
     'airbnb-base',
     'plugin:@typescript-eslint/recommended',
   ],
+  plugins: [
+    'jest',
+  ],
+  env: {
+    'jest/globals': true,
+  },
   overrides: [
     {
       files: ['*.ts'],
