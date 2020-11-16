@@ -22,6 +22,7 @@ export interface EventLoggerProps {
     readonly datastore?: Datastore
 }
 
+
 export class StepFunctionEventLogger extends Construct {
     constructor(scope: Construct, id: string, props: EventLoggerProps) {
         super(scope, id);
@@ -82,9 +83,6 @@ export class StepFunctionEventLogger extends Construct {
             // grants message processor lambda permission to consume messages from SQS Queue
             mainQueue.grantConsumeMessages(SQSMessageProcessorFunction)
 
-            // grants message processor lambda permsisions to read stepfunction execution history
-            props.stepfunctions.forEach(sf => { sf.grantRead(SQSMessageProcessorFunction!) });
-
             if (props.datastore === "Dynamodb") {
                 const dynamodb_datastore = new dynamodb.Table(
                     this, "EventsDatastore", {
@@ -121,5 +119,8 @@ export class StepFunctionEventLogger extends Construct {
                 "DATASTORE_ARN", datastoreArn!
             )
         }
+        // grants message processor lambda permsisions to read stepfunction execution history
+        props.stepfunctions.forEach(sf => { sf.grantRead(SQSMessageProcessorFunction!) });
     }
+
 }
