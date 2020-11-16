@@ -50,50 +50,7 @@ def generate_table_records(sqs_message: SqsMessage):
     if os.environ.get("EVENT_LOG_LEVEL", "") == "SUMMARY":
         return items
 
-    items.extend(get_steps_details(detail["executionArn"]))
-    return items
-
-    # sfn_input: StepFunctionInput = json.loads(detail["input"])
-
-    # items = [
-    #     {
-    #         "partition_key": sfn_input["key"].split("/")[-1],  # manifest filename
-    #         "sort_key": sfn_input.get("bundle", {}).get("item_id", "NO_STAC_ITEM_ID"),
-    #         "sfn_exec_name": msg["detail"]["name"],
-    #         "sfn_name": msg["detail"]["stateMachineArn"].split(":")[-1],
-    #         "sfn_exec_start_ts": msg["detail"]["startDate"],
-    #         "event_id": msg["id"],
-    #         "status": msg["detail"]["status"],
-    #         "record_type": "SNAPSHOT",
-    #     },
-    #     {
-    #         "partition_key": sfn_input["key"].split("/")[-1],  # manifest filename
-    #         # step_function execution id
-    #         "sort_key": f"execution:{msg['detail']['name']}",
-    #         "stac_item_id": sfn_input.get("bundle", {}).get(
-    #             "item_id", "NO_STAC_ITEM_ID"
-    #         ),
-    #         "sfn_name": msg["detail"]["stateMachineArn"].split(":")[-1],
-    #         "sfn_exec_start_ts": msg["detail"]["startDate"],
-    #         "event_id": msg["id"],
-    #         "status": msg["detail"]["status"],
-    #         "record_type": "EXECUTION_HISTORY",
-    #     },
-    # ]
-
-    # for item in items:
-    #     if msg["detail"]["status"] == "FAILED":
-
-    #         item.update(
-    #             get_failure_step_details(execution_arn=msg["detail"]["executionArn"])
-    #         )
-
-    #         # execution sepecific item, pre-pend "_" to the failed_step_name, in order
-    #         # to exclude that record from showing up in the failures Index
-    #         if "stac_item_id" in item.keys():
-    #             item["_failed_step_name"] = item["failed_step_name"]
-    #             del item["failed_step_name"]
-
+    items.extend(get_steps_details(detail["executionArn"]))  # type: ignore
     return items
 
 
