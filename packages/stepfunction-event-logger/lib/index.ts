@@ -15,17 +15,28 @@ export enum Datastore {
     DYNAMODB = "Dynamodb",
     POSTGRES = "Postgres"
 }
-export interface EventLoggerProps {
+export interface EventLoggerBaseProps {
     readonly stepfunctions: Array<StateMachine>
-    readonly lambda?: lambda.Function
-    readonly eventLoggingLevel?: EventLoggingLevel
-    readonly datastore?: Datastore
+}
+export interface EventLoggerCustomLambdaProps extends EventLoggerBaseProps {
+    readonly lambda: lambda.Function
+}
+export interface EventLoggerStandardLambdaProps extends EventLoggerBaseProps {
+    readonly eventLoggingLevel: EventLoggingLevel
+    readonly datastore: Datastore
 }
 
-
 export class StepFunctionEventLogger extends Construct {
-    constructor(scope: Construct, id: string, props: EventLoggerProps) {
+    constructor(scope: Construct, id: string, props: EventLoggerStandardLambdaProps | EventLoggerCustomLambdaProps) {
         super(scope, id);
+
+        function isCustomLambda(props: EventLoggerStandardLambdaProps | EventLoggerCustomLambdaProps): props is EventLoggerCustomLambdaProps {
+            return (props as EventLoggerCustomLambdaProps).lambda !== undefined
+        };
+
+        if (!this.isPropsValid(props)) {
+            throw new Error("Either (eventLoggingLevel AND datastore) OR lambda properties must be provided to the construtor")
+        }
 
         const deadLetterQueue = new sqs.Queue(
             this, "EventLoggerDeadLetterQueue", {
@@ -63,64 +74,85 @@ export class StepFunctionEventLogger extends Construct {
                 targets: [new events_targets.SqsQueue(mainQueue)]
             }
         )
-        var datastoreArn = "";
-        var SQSMessageProcessorFunction = props.lambda;
-        // If a lambda is provided to the construct, it's the user's responsibility 
-        // to build a datastore and ensure the lambda is connected to it.
-        // Otherwise, generate the DynamoDB/Postgres table
-        if (props.lambda === undefined) {
-            SQSMessageProcessorFunction = new lambda.Function(
-                this, "SQSMessageProcessorFunction",
-                {
-                    runtime: lambda.Runtime.PYTHON_3_8,
-                    code: lambda.Code.fromAsset("lambda"),
-                    handler: "event_logger.handler",
-                    timeout: Duration.minutes(1),
-                    events: [new lambda_event_sources.SqsEventSource(mainQueue)]
-                }
-            );
+        const SQSMessageProcessorFunction = isCustomLambda(props) ? props.lambda : this.createMessageProcessorFunction(mainQueue, props.eventLoggingLevel, props.datastore)
 
-            // grants message processor lambda permission to consume messages from SQS Queue
-            mainQueue.grantConsumeMessages(SQSMessageProcessorFunction)
+        // grants message processor lambda permission to consume messages from SQS Queue
+        mainQueue.grantConsumeMessages(SQSMessageProcessorFunction)
 
-            if (props.datastore === "Dynamodb") {
-                const dynamodb_datastore = new dynamodb.Table(
-                    this, "EventsDatastore", {
-                    partitionKey: {
-                        name: "execution_arn",
-                        type: dynamodb.AttributeType.STRING
-                    },
-                    sortKey: {
-                        name: "timestamp",
-                        type: dynamodb.AttributeType.STRING
-                    }
-                });
-
-                // grants message processor lambda permission to write to DynamoDB
-                dynamodb_datastore.grantWriteData(SQSMessageProcessorFunction)
-
-                datastoreArn = dynamodb_datastore.tableArn;
-
-            } else if (props.datastore === "Postgres") {
-                // TODO: 
-                // const postgres_datastore = new ...
-
-                // TODO: grant lambda access to postgres_datastore
-                // datastoreArn = postgres_datastore.tableArn; 
-            };
-
-            SQSMessageProcessorFunction.addEnvironment(
-                "EVENT_LOGGING_LEVEL", props.eventLoggingLevel!
-            )
-            SQSMessageProcessorFunction.addEnvironment(
-                "DATASTORE_TYPE", props.datastore!
-            )
-            SQSMessageProcessorFunction.addEnvironment(
-                "DATASTORE_ARN", datastoreArn!
-            )
-        }
         // grants message processor lambda permsisions to read stepfunction execution history
-        props.stepfunctions.forEach(sf => { sf.grantRead(SQSMessageProcessorFunction!) });
+        props.stepfunctions.forEach(sf => { sf.grantRead(SQSMessageProcessorFunction) });
+    }
+
+    isPropsValid(props: EventLoggerStandardLambdaProps | EventLoggerCustomLambdaProps) {
+        // If a lambda is provided to the construct, it's the user's responsibility
+        // to build a datastore and ensure the lambda is connected to it.
+        return (("datastore" in props && "eventLoggingLevel" in props) || "lamdba" in props)
+    }
+
+
+    createMessageProcessorFunction(
+        mainQueue: sqs.Queue,
+        eventLoggingLevel: EventLoggingLevel,
+        datastore: Datastore
+    ) {
+        const SQSMessageProcessorFunction = new lambda.Function(
+            this, "SQSMessageProcessorFunction",
+            {
+                runtime: lambda.Runtime.PYTHON_3_8,
+                code: lambda.Code.fromAsset("lambda"),
+                handler: "event_logger.handler",
+                timeout: Duration.minutes(1),
+                events: [new lambda_event_sources.SqsEventSource(mainQueue)]
+            }
+        );
+
+
+
+        SQSMessageProcessorFunction.addEnvironment(
+            "EVENT_LOGGING_LEVEL", eventLoggingLevel
+        )
+
+        SQSMessageProcessorFunction.addEnvironment(
+            "DATASTORE_TYPE", datastore
+        )
+
+
+        this.createDatastore(SQSMessageProcessorFunction, datastore);
+
+
+        return SQSMessageProcessorFunction;
+    }
+
+    createDatastore(
+        SQSMessageProcessorFunction: lambda.Function,
+        datastore: Datastore
+    ) {
+        if (datastore === Datastore.DYNAMODB) {
+            const dynamodb_datastore = new dynamodb.Table(
+                this, "EventsDatastore", {
+                partitionKey: {
+                    name: "execution_arn",
+                    type: dynamodb.AttributeType.STRING
+                },
+                sortKey: {
+                    name: "timestamp",
+                    type: dynamodb.AttributeType.STRING
+                }
+            });
+
+            // grants message processor lambda permission to write to DynamoDB
+            dynamodb_datastore.grantWriteData(SQSMessageProcessorFunction)
+
+            SQSMessageProcessorFunction.addEnvironment(
+                "DATASTORE_ARN", dynamodb_datastore.tableArn
+            )
+        } else if (datastore === Datastore.POSTGRES) {
+            // TODO:
+            // const postgres_datastore = new ...
+
+            // TODO: grant lambda access to postgres_datastore
+            // datastoreArn = postgres_datastore.tableArn;
+        };
     }
 
 }
