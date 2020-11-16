@@ -34,10 +34,6 @@ export class StepFunctionEventLogger extends Construct {
             return (props as EventLoggerCustomLambdaProps).lambda !== undefined
         };
 
-        if (!this.isPropsValid(props)) {
-            throw new Error("Either (eventLoggingLevel AND datastore) OR lambda properties must be provided to the construtor")
-        }
-
         const deadLetterQueue = new sqs.Queue(
             this, "EventLoggerDeadLetterQueue", {
             retentionPeriod: Duration.days(14)
@@ -54,6 +50,7 @@ export class StepFunctionEventLogger extends Construct {
         });
 
         var stepfunctionArns = Array<string>();
+
         props.stepfunctions.forEach(sf => {
             stepfunctionArns.push(sf.stateMachineArn)
         });
@@ -83,12 +80,6 @@ export class StepFunctionEventLogger extends Construct {
         props.stepfunctions.forEach(sf => { sf.grantRead(SQSMessageProcessorFunction) });
     }
 
-    isPropsValid(props: EventLoggerStandardLambdaProps | EventLoggerCustomLambdaProps) {
-        // If a lambda is provided to the construct, it's the user's responsibility
-        // to build a datastore and ensure the lambda is connected to it.
-        return (("datastore" in props && "eventLoggingLevel" in props) || "lamdba" in props)
-    }
-
 
     createMessageProcessorFunction(
         mainQueue: sqs.Queue,
@@ -106,8 +97,6 @@ export class StepFunctionEventLogger extends Construct {
             }
         );
 
-
-
         SQSMessageProcessorFunction.addEnvironment(
             "EVENT_LOGGING_LEVEL", eventLoggingLevel
         )
@@ -116,9 +105,7 @@ export class StepFunctionEventLogger extends Construct {
             "DATASTORE_TYPE", datastore
         )
 
-
         this.createDatastore(SQSMessageProcessorFunction, datastore);
-
 
         return SQSMessageProcessorFunction;
     }
