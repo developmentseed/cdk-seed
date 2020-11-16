@@ -77,7 +77,7 @@ export class StepFunctionEventLogger extends Construct {
     createMessageProcessorFunction (
         mainQueue: sqs.Queue,
         eventLoggingLevel?: string,
-        datastore?: string
+        datastore?: Datastore
     ) {
         const SQSMessageProcessorFunction = new lambda.Function(
             this, "SQSMessageProcessorFunction",
@@ -112,9 +112,9 @@ export class StepFunctionEventLogger extends Construct {
 
     addDatastoreForLambda(
         SQSMessageProcessorFunction: lambda.Function,
-        datastore: string
+        datastore: Datastore
     ) {
-        if (datastore === "Dynamodb") {
+        if (datastore === Datastore.DYNAMODB) {
             const dynamodb_datastore = new dynamodb.Table(
                 this, "EventsDatastore", {
                 partitionKey: {
@@ -133,7 +133,7 @@ export class StepFunctionEventLogger extends Construct {
             SQSMessageProcessorFunction.addEnvironment(
                 "DATASTORE_ARN", dynamodb_datastore.tableArn
             )
-        } else if (datastore === "Postgres") {
+        } else if (datastore === Datastore.POSTGRES) {
             // TODO:
             // const postgres_datastore = new ...
 
