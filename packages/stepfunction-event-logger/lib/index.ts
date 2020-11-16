@@ -76,7 +76,7 @@ export class StepFunctionEventLogger extends Construct {
 
     createMessageProcessorFunction (
         mainQueue: sqs.Queue,
-        eventLoggingLevel?: string,
+        eventLoggingLevel?: EventLoggingLevel,
         datastore?: Datastore
     ) {
         const SQSMessageProcessorFunction = new lambda.Function(
