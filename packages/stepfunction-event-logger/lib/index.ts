@@ -99,24 +99,14 @@ export class StepFunctionEventLogger extends Construct {
             // TODO: grant lambda access to postgres_datastore
             // datastoreArn = postgres_datastore.tableArn;
         };
-
-        // TODO: is this prop really optional?
-        if (props.eventLoggingLevel) {
-            SQSMessageProcessorFunction.addEnvironment(
-                "EVENT_LOGGING_LEVEL", props.eventLoggingLevel
-            )
-        }
-
-        // TODO: is this prop really optional?
-        if (props.datastore) {
-            SQSMessageProcessorFunction.addEnvironment(
-                "DATASTORE_TYPE", props.datastore
-            )
-        }
     }
 
-    createMessageProcessorFunction (mainQueue: sqs.Queue) {
-        return new lambda.Function(
+    createMessageProcessorFunction (
+        mainQueue: sqs.Queue,
+        eventLoggingLevel?: string,
+        datastore?: string
+    ) {
+        const SQSMessageProcessorFunction = new lambda.Function(
             this, "SQSMessageProcessorFunction",
             {
                 runtime: lambda.Runtime.PYTHON_3_8,
@@ -126,5 +116,22 @@ export class StepFunctionEventLogger extends Construct {
                 events: [new lambda_event_sources.SqsEventSource(mainQueue)]
             }
         );
+
+
+        // TODO: is this prop really optional?
+        if (eventLoggingLevel) {
+            SQSMessageProcessorFunction.addEnvironment(
+                "EVENT_LOGGING_LEVEL", eventLoggingLevel
+            )
+        }
+
+        // TODO: is this prop really optional?
+        if (datastore) {
+            SQSMessageProcessorFunction.addEnvironment(
+                "DATASTORE_TYPE", datastore
+            )
+        }
+
+        return SQSMessageProcessorFunction;
     }
 }
