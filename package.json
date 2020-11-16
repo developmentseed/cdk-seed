@@ -1,8 +1,12 @@
 {
   "name": "root",
   "license": "MIT",
+  "type": "module",
   "devDependencies": {
+    "fast-glob": "^3.2.4",
+    "fs-extra": "^9.0.1",
     "jest": "^26.6.3",
+    "jsii-docgen": "^1.4.85",
     "lerna": "^3.22.1"
   },
   "dependencies": {},
@@ -10,7 +14,7 @@
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "package": "lerna run package",
-    "docgen": "lerna run docgen",
+    "docgen": "node ./scripts/docgen.js --output docs 'packages/**/.jsii'",
     "test": "jest"
   },
   "jest": {
