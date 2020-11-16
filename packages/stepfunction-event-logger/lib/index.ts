@@ -4,19 +4,22 @@ import * as events from "@aws-cdk/aws-events";
 import * as events_targets from "@aws-cdk/aws-events-targets";
 import * as lambda from "@aws-cdk/aws-lambda";
 import * as lambda_event_sources from "@aws-cdk/aws-lambda-event-sources";
+import * as dynamodb from "@aws-cdk/aws-dynamodb";
 import { StateMachine } from "@aws-cdk/aws-stepfunctions";
 
+
 enum EventLoggingLevel {
-    Full,
-    Summary
+    full = "FULL",
+    summary = "SUMMARY"
 }
 enum Datastore {
-    Dynamodb,
-    Postregs
+    dynamodb = "Dynamodb",
+    postgres = "Postgres"
 }
 export interface EventLoggerProps {
     eventLogginLevel: EventLoggingLevel
     datastore: Datastore
+    lambda?: lambda.IFunction
     stepfunctionArns: Array<StateMachine['stateMachineArn']>
 }
 
@@ -48,7 +51,7 @@ export class StepFunctionEventLogger extends Construct {
                 description: "Captures status changed events from StepFunction and creates a message in SQS",
                 eventPattern: {
                     detail: {
-                        status: ["SUCCEEDED", "FAILED"],
+                        status: ["SUCCEEDED", "FAILED", "ABORTED", "TIMED_OUT"],
                         stateMachineArn: props.stepfunctionArns
                     },
                     detailType: ["Step Functions Execution Status Change"],
@@ -57,19 +60,49 @@ export class StepFunctionEventLogger extends Construct {
                 targets: [new events_targets.SqsQueue(mainQueue)]
             }
         )
-
-        const SQSMessageProcessorFunction = new lambda.Function(
-            this, "SQSMessageProcessorFunction",
-            {
-                runtime: lambda.Runtime.PYTHON_3_8,
-                code: lambda.Code.fromAsset("lambda"), // TODO: make a `lambda` folder with the code
-                handler: "event_logger.handler",
-                environment: {
-                    EVENT_LOGGING_LEVEL: props.eventLogginLevel.toString(), // TODO: is this the correct way to get a string value from an Enum? 
-                    DATASTORE: props.datastore.toString()
+        var datastoreArn;
+        // If a lambda is provided to the construct, it's the user's responsibility 
+        // to build a datastore and ensure the lambda is connected to it.
+        // Otherwise - generate the DynamoDB/Postgre table
+        if (props.lambda === undefined && props.datastore === "Dynamodb") {
+            const dynamodb_datastore = new dynamodb.Table(
+                this, "EventsDatastore", {
+                partitionKey: {
+                    name: "execution_arn",
+                    type: dynamodb.AttributeType.STRING
+                },
+                sortKey: {
+                    name: "timestamp",
+                    type: dynamodb.AttributeType.STRING
                 }
+            });
 
-            })
+            datastoreArn = dynamodb_datastore.tableArn;
+        } else if (props.lambda === undefined && props.datastore === "Postgres") {
+            // TODO: 
+            // const postgres_datastore = new ...
+
+            // datastoreArn = postgres_datastore.tableArn; 
+        };
+
+        var SQSMessageProcessorFunction = props.lambda;
+
+        if (props.lambda === undefined) {
+            SQSMessageProcessorFunction = new lambda.Function(
+                this, "SQSMessageProcessorFunction",
+                {
+                    runtime: lambda.Runtime.PYTHON_3_8,
+                    code: lambda.Code.fromAsset("lambda"),
+                    handler: "event_logger.handler",
+                    environment: {
+                        EVENT_LOGGING_LEVEL: props.eventLogginLevel,
+                        DATASTORE_TYPE: props.datastore,
+                        DATASTORE_ARN: datastoreArn
+                    }
+                }
+            );
+        };
+
         const sqsMessageProcessorTrigger = new lambda_event_sources.SqsEventSource(mainQueue);
 
         console.log({ props });

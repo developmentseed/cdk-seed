@@ -54,6 +54,7 @@
     }
   },
   "dependencies": {
+    "@aws-cdk/aws-dynamodb": "^1.73.0",
     "@aws-cdk/aws-events": "^1.73.0",
     "@aws-cdk/aws-events-targets": "^1.73.0",
     "@aws-cdk/aws-lambda": "^1.73.0",
