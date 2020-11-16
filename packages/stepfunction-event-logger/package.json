@@ -33,7 +33,10 @@
     "url": "git+https://github.com/developmentseed/cdk-seed.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "build": "jsii",
+    "build:watch": "jsii -w",
+    "package": "jsii-pacmak",
+    "docgen": "jsii-docgen"
   },
   "bugs": {
     "url": "https://github.com/developmentseed/cdk-seed/issues"
@@ -54,6 +57,16 @@
     }
   },
   "dependencies": {
+    "@aws-cdk/aws-dynamodb": "^1.73.0",
+    "@aws-cdk/aws-events": "^1.73.0",
+    "@aws-cdk/aws-events-targets": "^1.73.0",
+    "@aws-cdk/aws-lambda": "^1.73.0",
+    "@aws-cdk/aws-lambda-event-sources": "^1.73.0",
+    "@aws-cdk/aws-sqs": "^1.73.0",
+    "@aws-cdk/aws-stepfunctions": "^1.73.0",
+    "@aws-cdk/core": "^1.73.0"
+  },
+  "peerDependencies": {
     "@aws-cdk/aws-dynamodb": "^1.73.0",
     "@aws-cdk/aws-events": "^1.73.0",
     "@aws-cdk/aws-events-targets": "^1.73.0",

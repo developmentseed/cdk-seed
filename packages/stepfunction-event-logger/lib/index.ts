@@ -7,27 +7,24 @@ import * as lambda_event_sources from "@aws-cdk/aws-lambda-event-sources";
 import * as dynamodb from "@aws-cdk/aws-dynamodb";
 import { StateMachine } from "@aws-cdk/aws-stepfunctions";
 
-
-enum EventLoggingLevel {
-    full = "FULL",
-    summary = "SUMMARY"
+export enum EventLoggingLevel {
+    FULL = "FULL",
+    SUMMARY = "SUMMARY"
 }
-enum Datastore {
-    dynamodb = "Dynamodb",
-    postgres = "Postgres"
+export enum Datastore {
+    DYNAMODB = "Dynamodb",
+    POSTGRES = "Postgres"
 }
 export interface EventLoggerProps {
-    eventLogginLevel: EventLoggingLevel
-    datastore: Datastore
-    lambda?: lambda.IFunction
-    stepfunctionArns: Array<StateMachine['stateMachineArn']>
+    readonly stepfunctions: Array<StateMachine>
+    readonly lambda?: lambda.Function
+    readonly eventLoggingLevel?: EventLoggingLevel
+    readonly datastore?: Datastore
 }
 
 export class StepFunctionEventLogger extends Construct {
     constructor(scope: Construct, id: string, props: EventLoggerProps) {
         super(scope, id);
-
-
 
         const deadLetterQueue = new sqs.Queue(
             this, "EventLoggerDeadLetterQueue", {
@@ -44,7 +41,12 @@ export class StepFunctionEventLogger extends Construct {
             visibilityTimeout: Duration.minutes(1)
         });
 
-        const eventRule = new events.Rule(
+        var stepfunctionArns = Array<string>();
+        props.stepfunctions.forEach(sf => {
+            stepfunctionArns.push(sf.stateMachineArn)
+        });
+
+        new events.Rule(
             this, "EventNotificationToSQSRule",
             {
                 ruleName: "SendNewStepFunctionEventToQueue",
@@ -52,7 +54,7 @@ export class StepFunctionEventLogger extends Construct {
                 eventPattern: {
                     detail: {
                         status: ["SUCCEEDED", "FAILED", "ABORTED", "TIMED_OUT"],
-                        stateMachineArn: props.stepfunctionArns
+                        stateMachineArn: stepfunctionArns
                     },
                     detailType: ["Step Functions Execution Status Change"],
                     source: ["aws.states"],
@@ -60,33 +62,11 @@ export class StepFunctionEventLogger extends Construct {
                 targets: [new events_targets.SqsQueue(mainQueue)]
             }
         )
-        var datastoreArn;
+        var datastoreArn = "";
+        var SQSMessageProcessorFunction = props.lambda;
         // If a lambda is provided to the construct, it's the user's responsibility 
         // to build a datastore and ensure the lambda is connected to it.
-        // Otherwise - generate the DynamoDB/Postgre table
-        if (props.lambda === undefined && props.datastore === "Dynamodb") {
-            const dynamodb_datastore = new dynamodb.Table(
-                this, "EventsDatastore", {
-                partitionKey: {
-                    name: "execution_arn",
-                    type: dynamodb.AttributeType.STRING
-                },
-                sortKey: {
-                    name: "timestamp",
-                    type: dynamodb.AttributeType.STRING
-                }
-            });
-
-            datastoreArn = dynamodb_datastore.tableArn;
-        } else if (props.lambda === undefined && props.datastore === "Postgres") {
-            // TODO: 
-            // const postgres_datastore = new ...
-
-            // datastoreArn = postgres_datastore.tableArn; 
-        };
-
-        var SQSMessageProcessorFunction = props.lambda;
-
+        // Otherwise, generate the DynamoDB/Postgres table
         if (props.lambda === undefined) {
             SQSMessageProcessorFunction = new lambda.Function(
                 this, "SQSMessageProcessorFunction",
@@ -94,17 +74,52 @@ export class StepFunctionEventLogger extends Construct {
                     runtime: lambda.Runtime.PYTHON_3_8,
                     code: lambda.Code.fromAsset("lambda"),
                     handler: "event_logger.handler",
-                    environment: {
-                        EVENT_LOGGING_LEVEL: props.eventLogginLevel,
-                        DATASTORE_TYPE: props.datastore,
-                        DATASTORE_ARN: datastoreArn
-                    }
+                    timeout: Duration.minutes(1),
+                    events: [new lambda_event_sources.SqsEventSource(mainQueue)]
                 }
             );
-        };
 
-        const sqsMessageProcessorTrigger = new lambda_event_sources.SqsEventSource(mainQueue);
+            // grants message processor lambda permission to consume messages from SQS Queue
+            mainQueue.grantConsumeMessages(SQSMessageProcessorFunction)
 
-        console.log({ props });
+            // grants message processor lambda permsisions to read stepfunction execution history
+            props.stepfunctions.forEach(sf => { sf.grantRead(SQSMessageProcessorFunction!) });
+
+            if (props.datastore === "Dynamodb") {
+                const dynamodb_datastore = new dynamodb.Table(
+                    this, "EventsDatastore", {
+                    partitionKey: {
+                        name: "execution_arn",
+                        type: dynamodb.AttributeType.STRING
+                    },
+                    sortKey: {
+                        name: "timestamp",
+                        type: dynamodb.AttributeType.STRING
+                    }
+                });
+
+                // grants message processor lambda permission to write to DynamoDB
+                dynamodb_datastore.grantWriteData(SQSMessageProcessorFunction)
+
+                datastoreArn = dynamodb_datastore.tableArn;
+
+            } else if (props.datastore === "Postgres") {
+                // TODO: 
+                // const postgres_datastore = new ...
+
+                // TODO: grant lambda access to postgres_datastore
+                // datastoreArn = postgres_datastore.tableArn; 
+            };
+
+            SQSMessageProcessorFunction.addEnvironment(
+                "EVENT_LOGGING_LEVEL", props.eventLoggingLevel!
+            )
+            SQSMessageProcessorFunction.addEnvironment(
+                "DATASTORE_TYPE", props.datastore!
+            )
+            SQSMessageProcessorFunction.addEnvironment(
+                "DATASTORE_ARN", datastoreArn!
+            )
+        }
     }
 }
