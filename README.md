@@ -2,6 +2,20 @@
 
 ## Development
 
+### Prerequisites
+
+- [nvm](https://github.com/nvm-sh/nvm)
+
+### Getting started
+
+Use the specified version of Node for this project:
+
+`nvm use`
+
+If you get an error that the version of node is not installed, run:
+
+`nvm install $(cat .nvmrc)`
+
 ### Commands
 
 #### `npm run bootstrap`
