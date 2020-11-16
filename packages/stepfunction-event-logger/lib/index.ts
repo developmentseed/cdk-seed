@@ -72,33 +72,6 @@ export class StepFunctionEventLogger extends Construct {
 
         // grants message processor lambda permsisions to read stepfunction execution history
         props.stepfunctions.forEach(sf => { sf.grantRead(SQSMessageProcessorFunction) });
-
-        if (props.datastore === "Dynamodb") {
-            const dynamodb_datastore = new dynamodb.Table(
-                this, "EventsDatastore", {
-                partitionKey: {
-                    name: "execution_arn",
-                    type: dynamodb.AttributeType.STRING
-                },
-                sortKey: {
-                    name: "timestamp",
-                    type: dynamodb.AttributeType.STRING
-                }
-            });
-
-            // grants message processor lambda permission to write to DynamoDB
-            dynamodb_datastore.grantWriteData(SQSMessageProcessorFunction)
-
-            SQSMessageProcessorFunction.addEnvironment(
-                "DATASTORE_ARN", dynamodb_datastore.tableArn
-            )
-        } else if (props.datastore === "Postgres") {
-            // TODO:
-            // const postgres_datastore = new ...
-
-            // TODO: grant lambda access to postgres_datastore
-            // datastoreArn = postgres_datastore.tableArn;
-        };
     }
 
     createMessageProcessorFunction (
@@ -130,8 +103,42 @@ export class StepFunctionEventLogger extends Construct {
             SQSMessageProcessorFunction.addEnvironment(
                 "DATASTORE_TYPE", datastore
             )
+
+            this.addDatastoreForLambda(SQSMessageProcessorFunction, datastore);
         }
 
         return SQSMessageProcessorFunction;
+    }
+
+    addDatastoreForLambda(
+        SQSMessageProcessorFunction: lambda.Function,
+        datastore: string
+    ) {
+        if (datastore === "Dynamodb") {
+            const dynamodb_datastore = new dynamodb.Table(
+                this, "EventsDatastore", {
+                partitionKey: {
+                    name: "execution_arn",
+                    type: dynamodb.AttributeType.STRING
+                },
+                sortKey: {
+                    name: "timestamp",
+                    type: dynamodb.AttributeType.STRING
+                }
+            });
+
+            // grants message processor lambda permission to write to DynamoDB
+            dynamodb_datastore.grantWriteData(SQSMessageProcessorFunction)
+
+            SQSMessageProcessorFunction.addEnvironment(
+                "DATASTORE_ARN", dynamodb_datastore.tableArn
+            )
+        } else if (datastore === "Postgres") {
+            // TODO:
+            // const postgres_datastore = new ...
+
+            // TODO: grant lambda access to postgres_datastore
+            // datastoreArn = postgres_datastore.tableArn;
+        };
     }
 }
