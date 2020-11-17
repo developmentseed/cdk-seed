@@ -32,7 +32,7 @@ async function renderFiles(jsiiFiles, outdir) {
     if (!isLocalFqn(page.type)) continue;
     console.log(page.type.fqn);
 
-    const header = buildHeader(page.type);
+    const header = buildFrontMatter(page.type);
     const filePath = path.join(outdir, getRelLink(page.type));
     await fs.mkdirp(path.dirname(filePath));
     await fs.writeFile(filePath, header + page.markdown, { encoding: "utf-8" });
@@ -58,7 +58,11 @@ async function main() {
   await renderFiles(jsiiFiles, output);
 }
 
-function buildHeader(type) {
+/**
+ * Build Jekyll Front Matter (https://jekyllrb.com/docs/front-matter/)
+ * @param {"JsiiEntity"} type
+ */
+function buildFrontMatter(type) {
   const packageName = type.fqn.split(".")[0];
   const headerObj = {
     title: JSON.stringify(type.name),
