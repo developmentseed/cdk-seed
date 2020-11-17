@@ -34,6 +34,7 @@ github_username:  jekyll
 remote_theme: pmarsceill/just-the-docs
 plugins:
   - jekyll-feed
+markdown: GFM  # !Important: jsii-docgen produces Github Flavored Markdown
 
 # Theme settings
 search_enabled: true
