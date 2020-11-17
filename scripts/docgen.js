@@ -30,10 +30,11 @@ async function renderFiles(jsiiFiles, outdir) {
   const pages = await renderPages(ts, ctx);
   for (const page of pages) {
     if (!isLocalFqn(page.type)) continue;
-    console.log(page.type.fqn);
+
+    const header = buildHeader(page.type);
     const filePath = path.join(outdir, getRelLink(page.type));
     await fs.mkdirp(path.dirname(filePath));
-    await fs.writeFile(filePath, page.markdown, { encoding: "utf-8" });
+    await fs.writeFile(filePath, header + page.markdown, { encoding: "utf-8" });
   }
 }
 
@@ -54,6 +55,21 @@ async function main() {
   const output = args.output ?? "dist";
   const jsiiFiles = await fg(args._);
   await renderFiles(jsiiFiles, output);
+}
+
+function buildHeader(type) {
+  const packageName = type.fqn.split(".")[0];
+  const headerObj = {
+    title: JSON.stringify(type.name),
+    ...(type.fqn === type.name
+      ? { has_children: true }
+      : { parent: JSON.stringify(packageName) }),
+  };
+  const headerStr = Object.entries(headerObj).reduce(
+    (acc, [k, v]) => acc + `${k}: ${v}\n`,
+    ""
+  );
+  return "---\n" + headerStr + "---\n";
 }
 
 main().catch((e) => {
