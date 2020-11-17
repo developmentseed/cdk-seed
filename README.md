@@ -18,6 +18,10 @@ If you get an error that the version of node is not installed, run:
 
 ### Commands
 
+#### `npm start`
+
+Watch packages for updates to code and documentation, triggering builds of both on chhange.
+
 #### `npm run bootstrap`
 
 Install dependencies for each package.
