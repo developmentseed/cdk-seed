@@ -62,6 +62,7 @@ function buildHeader(type) {
   const packageName = type.fqn.split(".")[0];
   const headerObj = {
     title: JSON.stringify(type.name),
+    last_modified_date: new Date().toISOString(),
     ...(type.fqn === type.name
       ? { has_children: true }
       : { parent: JSON.stringify(packageName) }),
