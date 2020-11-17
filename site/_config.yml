@@ -40,7 +40,9 @@ markdown: GFM  # !Important: jsii-docgen produces Github Flavored Markdown
 search_enabled: true
 last_edit_timestamp: true # show or hide edit time - page must have `last_modified_date` defined in the frontmatter
 last_edit_time_format: "%b %e %Y at %I:%M %p" # uses ruby's time format: https://ruby-doc.org/stdlib-2.7.0/libdoc/time/rdoc/Time.html
-
+aux_links:
+  "Earthdata Playbook":
+    - "//developmentseed.github.io/earthdata-playbook"
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to
