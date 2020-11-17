@@ -30,6 +30,7 @@ async function renderFiles(jsiiFiles, outdir) {
   const pages = await renderPages(ts, ctx);
   for (const page of pages) {
     if (!isLocalFqn(page.type)) continue;
+    console.log(page.type.fqn);
 
     const header = buildHeader(page.type);
     const filePath = path.join(outdir, getRelLink(page.type));
