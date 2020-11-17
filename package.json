@@ -15,7 +15,8 @@
     "build": "lerna run build",
     "package": "lerna run package",
     "docgen": "node ./scripts/docgen.js --output site/docs 'packages/**/.jsii'",
-    "test": "jest"
+    "test": "jest",
+    "website": "cd site && bundle exec jekyll serve"
   },
   "jest": {
     "testEnvironment": "node"
