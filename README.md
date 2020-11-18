@@ -45,3 +45,18 @@ Run tests for all packages.
 ## Adding packages
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+## Generating documentation
+
+The generation of our documentation website is a three part process:
+
+1. `jsii` must be run within each package (this is done by running `npm run build` from the project base dir). This produces a `.jsii` in the root of each package.
+2. `scripts/docgen.js` should be run to gather each package's `.jsii` file and to export markdown documentation for each package into the `site/docs` directory.
+3. [Jekyll](https://jekyllrb.com/) should be run to generate HTML from the markdown documentation.
+
+This process can be made easier by running two processes in separate terminals:
+
+1. `npm start` which concurrently runs two operations:
+   * trigger `jsii` builds on changes to packages' `README.md` or `lib/*.ts` files.
+   * trigger `scripts/docgen.js` to run on changes to packages' `.jsii` files.
+2. `npm run website` which starts the Jekyll server. It is assumed that Jekyll has been previously installed on the system.
