@@ -20,7 +20,7 @@ If you get an error that the version of node is not installed, run:
 
 #### `npm start`
 
-Watch packages for updates to code and documentation, triggering builds of both on chhange.
+Watch packages for updates to code and documentation, triggering builds of both on change.
 
 #### `npm run bootstrap`
 
