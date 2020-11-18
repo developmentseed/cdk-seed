@@ -4,6 +4,7 @@ module.exports = {
   },
   plugins: [
     '@typescript-eslint',
+    'import',
     'jest',
   ],
   extends: [
@@ -16,6 +17,18 @@ module.exports = {
     'import/parsers': {
       '@typescript-eslint/parser': ['.ts', '.tsx'],
     },
+  },
+  rules: {
+    'import/extensions': [
+      'error',
+      'always',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
   },
   ignorePatterns: [
     'packages/*/lib/*.js',
