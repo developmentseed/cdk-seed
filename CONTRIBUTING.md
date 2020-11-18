@@ -43,11 +43,15 @@ Code samples can be included alongside text within in markdown files as such:
     console.log("Look, I'm doing something!")
     ```
 
-For more UI components, see the [Just the Docs](https://pmarsceill.github.io/just-the-docs/docs/ui-components) documentation. _NOTE: Just the Docs' examples utilize Kramdown to render its markdown, not Github Flavored Markdown. Being that we use Github Flavored Markdown, shorthand such as `{: .btn }` is not available. Any non-standard markdown should be written as HTML._
+For more UI components, see the [Just the Docs](https://pmarsceill.github.io/just-the-docs/docs/ui-components) documentation.
+
+_NOTE: Just the Docs' examples utilize Kramdown to render its markdown, not Github Flavored Markdown. Being that we use Github Flavored Markdown, shorthand such as `{: .btn }` is not available. Any non-standard markdown should be written as HTML._
 
 ### JSDocs
 
-Code documentation is generated automatically from the [JSDoc](https://jsdoc.app/) comment blocks provided within the TypeScript source code. At a minumum, every member of the `props` interface and the exported `Construct` should be annotated with JSDoc information.  _NOTE: At time of writing, it appears that only the `@deprecated` tag makes its way from the JSDoc annotations to the rendered markdown. As such, content from other tags (e.g. `@default`) should be duplicated within the textual messaging of the JSDoc description._
+Code documentation is generated automatically from the [JSDoc](https://jsdoc.app/) comment blocks provided within the TypeScript source code. At a minimum, every member of the `props` interface and the exported `Construct` should be annotated with JSDoc information. 
+
+ _NOTE: At time of writing, it appears that only the `@deprecated` tag makes its way from the JSDoc annotations to the rendered markdown. As such, content from other tags (e.g. `@default`) should be duplicated within the textual messaging of the JSDoc description._
 
 ## Additional Resources
 

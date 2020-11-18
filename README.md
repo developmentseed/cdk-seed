@@ -59,4 +59,4 @@ This process can be made easier by running two processes in separate terminals:
 1. `npm start` which concurrently runs two operations:
    * trigger `jsii` builds on changes to packages' `README.md` or `lib/*.ts` files.
    * trigger `scripts/docgen.js` to run on changes to packages' `.jsii` files.
-2. `npm run website` which starts the Jekyll server. It is assumed that Jekyll has been previously installed on the system.
+2. `npm run website` which starts the Jekyll server. It is assumed that Jekyll has been previously installed on the system. See [Jekyll's documentation](https://jekyllrb.com/docs/installation/) for more information.
