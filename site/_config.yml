@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: cdk-seed
+title: cdk-seed 🌱
 email: your-email@example.com
 description: >- # this means to ignore newlines until "baseurl:"
   Write an awesome description for your new site here. You can edit this
@@ -34,7 +34,7 @@ github_username:  jekyll
 remote_theme: pmarsceill/just-the-docs
 plugins:
   - jekyll-feed
-markdown: GFM  # !Important: jsii-docgen produces Github Flavored Markdown
+markdown: GFM  # !Important: jsii-docgen requires Github Flavored Markdown (https://github.github.com/gfm/)
 
 # Theme settings
 search_enabled: true
