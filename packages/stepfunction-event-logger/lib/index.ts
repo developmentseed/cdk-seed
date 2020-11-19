@@ -74,10 +74,12 @@ export class StepFunctionEventLogger extends Construct {
                 targets: [new events_targets.SqsQueue(mainQueue)]
             }
         )
-        const SQSMessageProcessorFunction = isCustomLambda(props) ? props.lambda : this.createMessageProcessorFunction(mainQueue, props.eventLoggingLevel, props.datastore)
+        const SQSMessageProcessorFunction = isCustomLambda(props) ? props.lambda : this.createMessageProcessorFunction(props.eventLoggingLevel, props.datastore)
 
         // grants message processor lambda permission to consume messages from SQS Queue
         mainQueue.grantConsumeMessages(SQSMessageProcessorFunction)
+
+        SQSMessageProcessorFunction.addEventSource(new lambda_event_sources.SqsEventSource(mainQueue))
 
         // grants message processor lambda permsisions to read stepfunction execution history
         props.stepfunctions.forEach(sf => { sf.grantRead(SQSMessageProcessorFunction) });
@@ -85,7 +87,6 @@ export class StepFunctionEventLogger extends Construct {
 
 
     createMessageProcessorFunction(
-        mainQueue: sqs.Queue,
         eventLoggingLevel: EventLoggingLevel,
         datastore: Datastore
     ) {
@@ -96,7 +97,7 @@ export class StepFunctionEventLogger extends Construct {
                 code: lambda.Code.fromAsset(path.join(__dirname, "lambda")),
                 handler: "event_logger.handler",
                 timeout: Duration.minutes(1),
-                events: [new lambda_event_sources.SqsEventSource(mainQueue)]
+
             }
         );
 
