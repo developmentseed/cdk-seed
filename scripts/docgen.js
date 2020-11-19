@@ -2,7 +2,7 @@
  * This script is an adaptation of the build tooling from the official jsii-docgen codebase:
  * https://github.com/aws/jsii-docgen/blob/d69453e6191d86761359d8ab28c4fd5e3e5ac2ad/src/index.ts#L11-L37
  * The primary differences:
- *  - only generates documentation if the module's `fqn` starts with `"@cdk-seed"`
+ *  - only generates documentation if the `JsiiEntity.fqn` starts with `"@cdk-seed"`
  *  - renders link to non-local modules by pointing at the official CDK documentation
  *  - prepends each outputted markdown file with Jekyll front-matter to describe hierarchy of data
  */
