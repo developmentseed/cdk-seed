@@ -51,7 +51,7 @@ def generate_table_records(sqs_message: SqsMessage):
     items = [
         {
             "execution_id": execution_id,
-            "step_id": "summary",
+            "step_id": f"{datetime.fromtimestamp(detail['startDate']).strftime(TIMESTAMP_FMT)}_summary",
             "stepfunction_name": stepfunction_name,
             "status": detail["status"],
             "input": json.loads(detail["input"]),
