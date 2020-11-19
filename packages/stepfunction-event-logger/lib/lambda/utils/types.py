@@ -2,44 +2,6 @@ from typing import TypedDict, List, Optional
 from datetime import datetime
 
 
-class ExecutionStartedEventDetails(TypedDict):
-    input: str
-    roleArn: str
-
-
-class StateEnteredEventDetails(TypedDict):
-    name: str
-    input: str
-
-
-class StateExitedEventDetails(TypedDict):
-    name: str
-    output: str
-
-
-class LamdbaFunctionScheduledEventDetails(TypedDict):
-    resource: str
-    input: str
-
-
-class LambdaFunctionSucceededEventDetails(TypedDict):
-    output: str
-
-
-class LambdaFunctionFailedEventDetails(TypedDict):
-    error: str
-    cause: str
-
-
-class ExecutionFailedEventDetails(TypedDict):
-    error: str
-    cause: str
-
-
-class ExecutionSucceededEventDetails(TypedDict):
-    output: str
-
-
 class StepFunctionHistoryEvent(TypedDict):
     timestamp: datetime
     id: str

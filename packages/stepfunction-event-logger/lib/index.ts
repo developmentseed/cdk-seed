@@ -5,6 +5,7 @@ import * as events_targets from "@aws-cdk/aws-events-targets";
 import * as lambda from "@aws-cdk/aws-lambda";
 import * as lambda_event_sources from "@aws-cdk/aws-lambda-event-sources";
 import * as dynamodb from "@aws-cdk/aws-dynamodb";
+import * as path from "path";
 import { StateMachine } from "@aws-cdk/aws-stepfunctions";
 
 export enum EventLoggingLevel {
@@ -15,6 +16,7 @@ export enum Datastore {
     DYNAMODB = "Dynamodb",
     POSTGRES = "Postgres"
 }
+
 export interface EventLoggerBaseProps {
     readonly stepfunctions: Array<StateMachine>
 }
@@ -24,6 +26,7 @@ export interface EventLoggerCustomLambdaProps extends EventLoggerBaseProps {
 export interface EventLoggerStandardLambdaProps extends EventLoggerBaseProps {
     readonly eventLoggingLevel: EventLoggingLevel
     readonly datastore: Datastore
+    //    readonly dynamodbSettings?: DynamodbSettings
 }
 
 export class StepFunctionEventLogger extends Construct {
@@ -90,7 +93,7 @@ export class StepFunctionEventLogger extends Construct {
             this, "SQSMessageProcessorFunction",
             {
                 runtime: lambda.Runtime.PYTHON_3_8,
-                code: lambda.Code.fromAsset("lambda"),
+                code: lambda.Code.fromAsset(path.join(__dirname, "lambda")),
                 handler: "event_logger.handler",
                 timeout: Duration.minutes(1),
                 events: [new lambda_event_sources.SqsEventSource(mainQueue)]
@@ -112,20 +115,58 @@ export class StepFunctionEventLogger extends Construct {
 
     createDatastore(
         SQSMessageProcessorFunction: lambda.Function,
-        datastore: Datastore
+        datastore: Datastore,
     ) {
         if (datastore === Datastore.DYNAMODB) {
             const dynamodb_datastore = new dynamodb.Table(
                 this, "EventsDatastore", {
                 partitionKey: {
-                    name: "execution_arn",
+                    name: "execution_id",
                     type: dynamodb.AttributeType.STRING
                 },
                 sortKey: {
-                    name: "timestamp",
+                    name: "step_id",
                     type: dynamodb.AttributeType.STRING
-                }
+                },
             });
+            // TODO: make capacity and indexes configurable
+            dynamodb_datastore.autoScaleReadCapacity({
+                minCapacity: 5,
+                maxCapacity: 10000
+            })
+            dynamodb_datastore.autoScaleWriteCapacity({
+                minCapacity: 5,
+                maxCapacity: 10000
+            })
+
+            dynamodb_datastore.addGlobalSecondaryIndex(
+                {
+                    indexName: "ExecutionFailed-Timestamp-Index",
+                    partitionKey: {
+                        name: "type",
+                        type: dynamodb.AttributeType.STRING
+                    },
+                    sortKey: {
+                        name: "timestamp",
+                        type: dynamodb.AttributeType.STRING
+                    }
+                }
+            )
+
+            dynamodb_datastore.autoScaleGlobalSecondaryIndexReadCapacity(
+                "ExecutionFailed-Timestamp-Index",
+                {
+                    minCapacity: 5,
+                    maxCapacity: 10000
+                }
+            )
+            dynamodb_datastore.autoScaleGlobalSecondaryIndexWriteCapacity(
+                "ExecutionFailed-Timestamp-Index",
+                {
+                    minCapacity: 5,
+                    maxCapacity: 10000
+                }
+            )
 
             // grants message processor lambda permission to write to DynamoDB
             dynamodb_datastore.grantWriteData(SQSMessageProcessorFunction)
