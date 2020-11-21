@@ -19,8 +19,7 @@
   "scripts": {
     "build": "jsii",
     "build:watch": "jsii -w",
-    "package": "jsii-pacmak",
-    "docgen": "jsii-docgen"
+    "package": "jsii-pacmak"
   },
   "bugs": {
     "url": "https://github.com/developmentseed/cdk-seed/issues"

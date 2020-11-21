@@ -1,17 +1,27 @@
 {
   "name": "root",
   "license": "MIT",
+  "type": "module",
   "devDependencies": {
+    "concurrently": "^5.3.0",
+    "fast-glob": "^3.2.4",
+    "fs-extra": "^9.0.1",
     "jest": "^26.6.3",
-    "lerna": "^3.22.1"
+    "jsii-docgen": "^1.4.85",
+    "lerna": "^3.22.1",
+    "nodemon": "^2.0.6"
   },
   "dependencies": {},
   "scripts": {
+    "start": "concurrently \"npm run build:watch\" \"npm run docgen:watch\"",
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
+    "build:watch": "nodemon --watch 'packages' --ext '.md' --exec 'lerna run --parallel build:watch'",
     "package": "lerna run package",
-    "docgen": "lerna run docgen",
-    "test": "jest"
+    "docgen": "node ./scripts/docgen.js --output site/docs 'packages/**/.jsii'",
+    "docgen:watch": "nodemon --exec 'npm run docgen' $(for f in packages/*/.jsii; do echo \"-w $f\"; done) --ext jsii --verbose",
+    "test": "jest",
+    "website": "cd site && bundle exec jekyll serve"
   },
   "jest": {
     "testEnvironment": "node"

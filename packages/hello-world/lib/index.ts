@@ -17,6 +17,9 @@ export interface TestProps {
   readonly baz: 'asdf';
 }
 
+/**
+ * Creates an example construct.
+ */
 export class TestConstruct extends Construct {
   constructor(scope: Construct, id: string, props: TestProps) {
     super(scope, id);
