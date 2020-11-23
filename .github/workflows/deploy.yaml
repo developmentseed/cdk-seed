@@ -27,7 +27,7 @@ jobs:
           npm run docgen
 
       - name: Deploy 🚀
-        if: github.ref == refs/heads/main
+        if: github.ref == 'refs/heads/main'
         uses: helaili/jekyll-action@2.0.4
         env:
           JEKYLL_PAT: ${{ github.actor }}:${{ github.token }}
