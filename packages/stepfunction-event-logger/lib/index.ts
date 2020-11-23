@@ -109,7 +109,7 @@ export class StepFunctionEventLogger extends Construct {
             "DATASTORE_TYPE", datastore
         )
 
-        this.createDatastore(SQSMessageProcessorFunction, datastore);
+        this.createDatastore(SQSMessageProcessorFunction, datastore, eventLoggingLevel);
 
         return SQSMessageProcessorFunction;
     }
@@ -117,6 +117,7 @@ export class StepFunctionEventLogger extends Construct {
     createDatastore(
         SQSMessageProcessorFunction: lambda.Function,
         datastore: Datastore,
+        loglevel: EventLoggingLevel
     ) {
         if (datastore === Datastore.DYNAMODB) {
             const dynamodb_datastore = new dynamodb.Table(
@@ -140,34 +141,69 @@ export class StepFunctionEventLogger extends Construct {
                 maxCapacity: 10000
             })
 
-            dynamodb_datastore.addGlobalSecondaryIndex(
-                {
-                    indexName: "ExecutionFailed-Timestamp-Index",
-                    partitionKey: {
-                        name: "type",
-                        type: dynamodb.AttributeType.STRING
-                    },
-                    sortKey: {
-                        name: "timestamp",
-                        type: dynamodb.AttributeType.STRING
-                    }
-                }
-            )
 
-            dynamodb_datastore.autoScaleGlobalSecondaryIndexReadCapacity(
-                "ExecutionFailed-Timestamp-Index",
-                {
-                    minCapacity: 5,
-                    maxCapacity: 10000
-                }
-            )
-            dynamodb_datastore.autoScaleGlobalSecondaryIndexWriteCapacity(
-                "ExecutionFailed-Timestamp-Index",
-                {
-                    minCapacity: 5,
-                    maxCapacity: 10000
-                }
-            )
+            if (loglevel === EventLoggingLevel.FULL) {
+                dynamodb_datastore.addGlobalSecondaryIndex(
+                    {
+                        indexName: "EventType-Timestamp-Index",
+                        partitionKey: {
+                            name: "type",
+                            type: dynamodb.AttributeType.STRING
+                        },
+                        sortKey: {
+                            name: "timestamp",
+                            type: dynamodb.AttributeType.STRING
+                        }
+                    }
+                )
+
+
+                dynamodb_datastore.autoScaleGlobalSecondaryIndexReadCapacity(
+                    "EventType-Timestamp-Index",
+                    {
+                        minCapacity: 5,
+                        maxCapacity: 10000
+                    }
+                )
+                dynamodb_datastore.autoScaleGlobalSecondaryIndexWriteCapacity(
+                    "EventType-Timestamp-Index",
+                    {
+                        minCapacity: 5,
+                        maxCapacity: 10000
+                    }
+                )
+            } else if (loglevel === EventLoggingLevel.SUMMARY) {
+                dynamodb_datastore.addGlobalSecondaryIndex(
+                    {
+                        indexName: "ExecutionStatus-Timestamp-Index",
+                        partitionKey: {
+                            name: "Status",
+                            type: dynamodb.AttributeType.STRING
+                        },
+                        sortKey: {
+                            name: "timestamp",
+                            type: dynamodb.AttributeType.STRING
+                        }
+                    }
+                )
+
+
+                dynamodb_datastore.autoScaleGlobalSecondaryIndexReadCapacity(
+                    "ExecutionStatus-Timestamp-Index",
+                    {
+                        minCapacity: 5,
+                        maxCapacity: 10000
+                    }
+                )
+                dynamodb_datastore.autoScaleGlobalSecondaryIndexWriteCapacity(
+                    "ExecutionStatus-Timestamp-Index",
+                    {
+                        minCapacity: 5,
+                        maxCapacity: 10000
+                    }
+                )
+            }
+
 
             // grants message processor lambda permission to write to DynamoDB
             dynamodb_datastore.grantWriteData(SQSMessageProcessorFunction)
