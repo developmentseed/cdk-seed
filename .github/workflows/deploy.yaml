@@ -11,6 +11,14 @@ jobs:
         with:
           node-version: '14.15.0'
 
+      - name: Cache 📁
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/package-locks.lock') }}
+
       - name: Install and Build 🔧
         run: |
           npm install
