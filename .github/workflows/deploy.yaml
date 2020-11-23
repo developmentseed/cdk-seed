@@ -19,7 +19,6 @@ jobs:
           npm run bootstrap
           npm run build
           npm run docgen
-          npm run website:build
 
       - uses: helaili/jekyll-action@2.0.1
         env:
