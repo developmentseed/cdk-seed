@@ -20,7 +20,7 @@ jobs:
           npm run build
           npm run docgen
 
-      - uses: helaili/jekyll-action@2.0.1
+      - uses: helaili/jekyll-action@2.0.4
         env:
           JEKYLL_PAT: ${{ secrets.GITHUB_TOKEN }}
         with:
