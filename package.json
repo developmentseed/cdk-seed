@@ -21,8 +21,7 @@
     "docgen": "node ./scripts/docgen.js --output site/constructs 'packages/**/.jsii'",
     "docgen:watch": "nodemon --exec 'npm run docgen' $(for f in packages/*/.jsii; do echo \"-w $f\"; done) --ext jsii --verbose",
     "test": "jest",
-    "website": "cd site && bundle exec jekyll serve",
-    "website:build": "cd site && bundle exec jekyll build -d ../cdk-seed"
+    "website": "cd site && bundle exec jekyll serve"
   },
   "jest": {
     "testEnvironment": "node"
