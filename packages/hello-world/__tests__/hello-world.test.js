@@ -1,6 +1,6 @@
 'use strict';
 
-const helloWorld = require('..');
+const helloWorld = require('../lib');
 
 describe('hello-world', () => {
     test.todo('needs tests');
