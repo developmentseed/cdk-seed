@@ -1,4 +1,4 @@
-import { Construct } from "@aws-cdk/core";
+import { Construct } from '@aws-cdk/core';
 
 export interface TestProps {
   /**
