@@ -1,7 +1,5 @@
-'use strict';
-
-const helloWorld = require('..');
+import helloWorld from '../lib/index';
 
 describe('hello-world', () => {
-    test.todo('needs tests');
+  test.todo('needs tests');
 });
