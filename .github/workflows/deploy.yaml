@@ -19,11 +19,21 @@ jobs:
             */*/node_modules
           key: ${{ runner.os }}-${{ hashFiles('**/package-locks.lock') }}
 
-      - name: Install and Build 🔧
+      - name: Install 🔧
         run: |
           npm install
           npm run bootstrap
+
+      - name: Test 🧪
+        run: |
+          npm test
+
+      - name: Build 🏗️
+        run: |
           npm run build
+
+      - name: Generate docs 📃
+        run: |
           npm run docgen
 
       - name: Deploy 🚀
