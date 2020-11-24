@@ -3,21 +3,8 @@ email: anthony@developmentseed.org
 description: >-
   A collection of CDK Constructs created by DevelopmentSeed
 baseurl: "/cdk-seed"
-url: "https://developmentseed.org"
 twitter_username: developmentseed
 github_username:  developmentseed
-
-# Content
-collections:
-  constructs:
-    permalink: "/:collection/:path/"
-    output: true
-defaults:
-  - scope:
-      path: ""
-      type: "constructs"
-    values:
-      layout: "default"
 
 # Build settings
 remote_theme: pmarsceill/just-the-docs
@@ -30,12 +17,5 @@ search_enabled: true
 last_edit_timestamp: true # show or hide edit time - page must have `last_modified_date` defined in the frontmatter
 last_edit_time_format: "%b %e %Y at %I:%M %p" # uses ruby's time format: https://ruby-doc.org/stdlib-2.7.0/libdoc/time/rdoc/Time.html
 aux_links:
-  "<img src='/cdk-seed/assets/images/GitHub-Mark-32px.png' />cdk-seed on Github":
+  "<img src='/cdk-seed/assets/images/GitHub-Mark-32px.png' />Github":
     - "//github.com/developmentseed/cdk-seed"
-
-just_the_docs:
-  collections:
-    pages:
-      name: Overview
-    constructs:
-      name: Constructs

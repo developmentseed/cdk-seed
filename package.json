@@ -18,11 +18,11 @@
     "build": "lerna run build",
     "build:watch": "nodemon --watch 'packages' --ext '.md' --exec 'lerna run --parallel build:watch'",
     "package": "lerna run package",
-    "docgen": "node ./scripts/docgen.js --output site/_constructs 'packages/**/.jsii'",
+    "docgen": "node ./scripts/docgen.js --output site/constructs 'packages/**/.jsii'",
     "docgen:watch": "nodemon --exec 'npm run docgen' $(for f in packages/*/.jsii; do echo \"-w $f\"; done) --ext jsii --verbose",
     "test": "jest",
     "website": "cd site && bundle exec jekyll serve",
-    "website:build": "cd site && bundle exec jekyll build -d ../docs"
+    "website:build": "cd site && bundle exec jekyll build -d ../cdk-seed"
   },
   "jest": {
     "testEnvironment": "node"

@@ -1,7 +1,6 @@
 ---
-layout: home
 nav_order: 0
-title: About
+title: Overview
 ---
 
 # cdk-seed
