@@ -1,0 +1,74 @@
+{"0": {
+    "doc": "TestConstruct",
+    "title": "class TestConstruct  ",
+    "content": "Creates an example construct. Implements: IConstruct, IConstruct, IConstruct, IDependable Extends: Construct . ",
+    "url": "https://developmentseed.org/cdk-seed/docs/@cdk-seed_hello-world.TestConstruct.html",
+    "relUrl": "/docs/@cdk-seed_hello-world.TestConstruct.html"
+  },"1": {
+    "doc": "TestConstruct",
+    "title": "Initializer",
+    "content": "new TestConstruct(scope: Construct, id: string, props: TestProps) . | scope (Construct) No description | id (string) No description | props (TestProps) No description . | bar (number) Some number. | baz (string) A fixed constant. | foo (string) Some string. | . | . ",
+    "url": "https://developmentseed.org/cdk-seed/docs/@cdk-seed_hello-world.TestConstruct.html#initializer",
+    "relUrl": "/docs/@cdk-seed_hello-world.TestConstruct.html#initializer"
+  },"2": {
+    "doc": "TestConstruct",
+    "title": "TestConstruct",
+    "content": " ",
+    "url": "https://developmentseed.org/cdk-seed/docs/@cdk-seed_hello-world.TestConstruct.html",
+    "relUrl": "/docs/@cdk-seed_hello-world.TestConstruct.html"
+  },"3": {
+    "doc": "TestProps",
+    "title": "struct TestProps  ",
+    "content": "| Name | Type | Description | . | bar | number | Some number. | . | baz | string | A fixed constant. | . | foo | string | Some string. | . ",
+    "url": "https://developmentseed.org/cdk-seed/docs/@cdk-seed_hello-world.TestProps.html",
+    "relUrl": "/docs/@cdk-seed_hello-world.TestProps.html"
+  },"4": {
+    "doc": "TestProps",
+    "title": "TestProps",
+    "content": " ",
+    "url": "https://developmentseed.org/cdk-seed/docs/@cdk-seed_hello-world.TestProps.html",
+    "relUrl": "/docs/@cdk-seed_hello-world.TestProps.html"
+  },"5": {
+    "doc": "@cdk-seed/hello-world",
+    "title": "Hello World",
+    "content": "This package serves as a proof of concept while we build out this repository's infrastructure. ",
+    "url": "https://developmentseed.org/cdk-seed/docs/@cdk-seed_hello-world.html#hello-world",
+    "relUrl": "/docs/@cdk-seed_hello-world.html#hello-world"
+  },"6": {
+    "doc": "@cdk-seed/hello-world",
+    "title": "Use Cases",
+    "content": "In this section, we would document why a construct would be used. ",
+    "url": "https://developmentseed.org/cdk-seed/docs/@cdk-seed_hello-world.html#use-cases",
+    "relUrl": "/docs/@cdk-seed_hello-world.html#use-cases"
+  },"7": {
+    "doc": "@cdk-seed/hello-world",
+    "title": "Instructions",
+    "content": "In this section, we would document how a construct would be used. Using a div.code-example is a great way to annotate a code sample: . { \"foo\": 123, \"bar\": \"asdf\" } . ",
+    "url": "https://developmentseed.org/cdk-seed/docs/@cdk-seed_hello-world.html#instructions",
+    "relUrl": "/docs/@cdk-seed_hello-world.html#instructions"
+  },"8": {
+    "doc": "@cdk-seed/hello-world",
+    "title": "API Reference",
+    "content": "Classes . | Name | Description | . | TestConstruct | Creates an example construct. | . Structs . | Name | Description | . | TestProps | No description | . ",
+    "url": "https://developmentseed.org/cdk-seed/docs/@cdk-seed_hello-world.html#api-reference",
+    "relUrl": "/docs/@cdk-seed_hello-world.html#api-reference"
+  },"9": {
+    "doc": "@cdk-seed/hello-world",
+    "title": "@cdk-seed/hello-world",
+    "content": " ",
+    "url": "https://developmentseed.org/cdk-seed/docs/@cdk-seed_hello-world.html",
+    "relUrl": "/docs/@cdk-seed_hello-world.html"
+  },"10": {
+    "doc": "Overview",
+    "title": "cdk-seed",
+    "content": "cdk-seed is a collection of CDK Constructs produced by Development Seed. ",
+    "url": "https://developmentseed.org/cdk-seed/#cdk-seed",
+    "relUrl": "/#cdk-seed"
+  },"11": {
+    "doc": "Overview",
+    "title": "Overview",
+    "content": " ",
+    "url": "https://developmentseed.org/cdk-seed/",
+    "relUrl": "/"
+  }
+}
