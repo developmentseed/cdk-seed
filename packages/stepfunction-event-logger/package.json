@@ -1,0 +1,80 @@
+{
+  "name": "@cdk-seed/stepfunction-event-logger",
+  "version": "1.0.0",
+  "description": "StepFunction event logger using EventBridge and SQS",
+  "keywords": [
+    "StepFunction",
+    "EventBridge",
+    "SQS",
+    "DynamoDB",
+    "PostgreSQL",
+    "events",
+    "logging",
+    "error",
+    "tracing"
+  ],
+  "author": "Leo Thomas <leo.thomas@mail.mcgill.ca>",
+  "homepage": "https://github.com/developmentseed/cdk-seed#readme",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/developmentseed/cdk-seed.git"
+  },
+  "scripts": {
+    "build": "jsii",
+    "build:watch": "jsii -w",
+    "package": "jsii-pacmak",
+    "docgen": "jsii-docgen"
+  },
+  "bugs": {
+    "url": "https://github.com/developmentseed/cdk-seed/issues"
+  },
+  "devDependencies": {
+    "jsii": "^1.14.1",
+    "jsii-pacmak": "^1.14.1"
+  },
+  "stability": "experimental",
+  "jsii": {
+    "outdir": "dist",
+    "versionFormat": "full",
+    "targets": {
+      "python": {
+        "distName": "cdk-seed.stepfunction-event-logger",
+        "module": "cdk_seed.stepfunction_event_logger"
+      }
+    }
+  },
+  "dependencies": {
+    "@aws-cdk/aws-dynamodb": "^1.73.0",
+    "@aws-cdk/aws-events": "^1.73.0",
+    "@aws-cdk/aws-events-targets": "^1.73.0",
+    "@aws-cdk/aws-lambda": "^1.73.0",
+    "@aws-cdk/aws-lambda-event-sources": "^1.73.0",
+    "@aws-cdk/aws-sqs": "^1.73.0",
+    "@aws-cdk/aws-stepfunctions": "^1.73.0",
+    "@aws-cdk/core": "^1.73.0",
+    "@types/node": "^14.14.8"
+  },
+  "peerDependencies": {
+    "@aws-cdk/aws-dynamodb": "^1.73.0",
+    "@aws-cdk/aws-events": "^1.73.0",
+    "@aws-cdk/aws-events-targets": "^1.73.0",
+    "@aws-cdk/aws-lambda": "^1.73.0",
+    "@aws-cdk/aws-lambda-event-sources": "^1.73.0",
+    "@aws-cdk/aws-sqs": "^1.73.0",
+    "@aws-cdk/aws-stepfunctions": "^1.73.0",
+    "@aws-cdk/core": "^1.73.0"
+  },
+  "bundleDependencies": [
+    "@types/node"
+  ]
+}

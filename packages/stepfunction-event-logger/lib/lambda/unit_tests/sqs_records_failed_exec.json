@@ -1,0 +1,20 @@
+{
+    "Records": [
+        {
+            "messageId": "f470c1d2-6753-4abc-bdeb-c04e5ec3bf5c",
+            "receiptHandle": "AQEBBYuCbnC1ygSPBMS96YONDVZc267x+fkKeopsa5MhowQPYbrGELfpBUguKvyE/svJZEzvCfHCvsxhl3wR0Kryng5EeMNlg7kC9tRiBKC/pDoU+/SErI3amtdzSFV2XlP8YpVqrUIrHQ5bBi25xaSjWhIwZMhV77HPipxPq4fijpZbXzJ/6q/wF8VtTlPKHCKtWwGDx5VJXpBnAeSy35oiyQVRg6kHwlY8VLDSQhd1fnLzl7iFZxDSs3igWtcodqLs8xYKzerJ5SbuJkhTmOavECZ08+0JaZxUTEnoeIkBSbVntBncLiEbBuLoTPpU5V/N4EnpTbbUCbZDtkDFbYQ+tuDAGLaphTAGnRfcaOHvd25Zlvt8h/jOaxNLdNGN9JyCL9HFXadXybbYxLqRuk6CkBC/oiueqtmaHHt7XWcKuhc6mTyR0QZ0NUmOH250Gap646Z04cZ4lxvzNVlkvpN/++0ZfFHSjgKRZaQ/M/6X7Co=",
+            "body": "{\"version\":\"0\",\"id\":\"eb50a295-6143-a90d-cd36-d3113c29c766\",\"detail-type\":\"Step Functions Execution Status Change\",\"source\":\"aws.states\",\"account\":\"278255066410\",\"time\":\"2020-11-18T21: 51: 04Z\",\"region\":\"us-east-1\",\"resources\":[\"arn:aws:states:us-east-1: 278255066410:execution:EventLoggerTestStateMachine2AA2ECF9-3tzoxIpaO3Ps:9eaa2975-c936-4129-aec2-2dac7c0b4294\"],\"detail\":{\"executionArn\":\"arn:aws:states:us-east-1: 278255066410:execution:EventLoggerTestStateMachine2AA2ECF9-3tzoxIpaO3Ps:9eaa2975-c936-4129-aec2-2dac7c0b4294\",\"stateMachineArn\":\"arn:aws:states:us-east-1: 278255066410:stateMachine:EventLoggerTestStateMachine2AA2ECF9-3tzoxIpaO3Ps\",\"name\":\"9eaa2975-c936-4129-aec2-2dac7c0b4294\",\"status\":\"FAILED\",\"startDate\":1605736264365,\"stopDate\":1605736264795,\"input\":\"{\\n\\\"test_failure\\\": true\\n}\",\"inputDetails\":{\"included\":true},\"output\":null,\"outputDetails\":null}}",
+            "attributes": {
+                "ApproximateReceiveCount": "1",
+                "SentTimestamp": "1605736265300",
+                "SenderId": "AIDAJXNJGGKNS7OSV23OI",
+                "ApproximateFirstReceiveTimestamp": "1605736265355"
+            },
+            "messageAttributes": {},
+            "md5OfBody": "0713ae1f99b02a5e3f82cd5ec783f0a3",
+            "eventSource": "aws:sqs",
+            "eventSourceARN": "arn:aws:sqs:us-east-1:278255066410:stepfunction-logger-test-StepfunctionEventLoggerEventLoggingQueue1-16LUNXQQ1M4WJ",
+            "awsRegion": "us-east-1"
+        }
+    ]
+}

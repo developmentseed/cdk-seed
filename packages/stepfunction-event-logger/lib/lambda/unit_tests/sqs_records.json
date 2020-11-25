@@ -1,0 +1,20 @@
+{
+    "Records": [
+        {
+            "messageId": "29a2dcc4-4d16-4bf5-a639-c49852edae07",
+            "receiptHandle": "AQEBRiXLdBRBWmZ4Rwk/wfu4Mh8SOhtMJDEbwQ9Do/2UUP9mttP8aQmoGT37Ja8iwkZkDqSiakN7YLuUG+pXEa110I91ssL5SdlN4lgnUmeiiL7vFvXS534vMidXExfMU3nehPYQGgH4oXR2G2BWHpOKHR8eTZNv/PnERUnDGOydQQCF9wZCkByW1869DmcFkhDwsuKZISgf5dTWZVTkTX2ShyAQuFa+WKN4aUVtglvpGJDcrTgCikKhknFAjc+xonRJAJwM2eMXX269JtA1XLOcsmqvc6TAKTTnpe2fYHNs/SSThZYX2fsUVtXnRyqNP67iv5kXibPlWvLN0hn7fecV20QgHu/bbumVdwdSE5+JpwUvsVhQZsiPq/UXgqvPZ/Vl1oRZsUEt9+uvrOf7wzy9APnWU8raKKmO2szf7fn4aiAafo0PY/iXw0vmgl75YH4+PZ5OK0ngscD2l9i/SSSGem9tiD8dNdw6OtCjceSn5L8=",
+            "body": "{\"version\":\"0\",\"id\":\"9c3fd9ae-07b7-b8c0-3386-fa65300c998b\",\"detail-type\":\"Step Functions Execution Status Change\",\"source\":\"aws.states\",\"account\":\"278255066410\",\"time\":\"2020-11-18T14:41:29Z\",\"region\":\"us-east-1\",\"resources\":[\"arn:aws:states:us-east-1:278255066410:execution:EventLoggerTestStateMachine2AA2ECF9-EpNnq9esNvsS:test7\"],\"detail\":{\"executionArn\":\"arn:aws:states:us-east-1:278255066410:execution:EventLoggerTestStateMachine2AA2ECF9-EpNnq9esNvsS:test7\",\"stateMachineArn\":\"arn:aws:states:us-east-1:278255066410:stateMachine:EventLoggerTestStateMachine2AA2ECF9-EpNnq9esNvsS\",\"name\":\"test7\",\"status\":\"SUCCEEDED\",\"startDate\":1605710489061,\"stopDate\":1605710489866,\"input\":\"{\\n    \\\"ping\\\":\\\"pong\\\"\\n}\",\"inputDetails\":{\"included\":true},\"output\":\"{\\\"ExecutedVersion\\\":\\\"$LATEST\\\",\\\"Payload\\\":{\\\"task1_output\\\":\\\"(With borat voice) Great Success from task 2!\\\"},\\\"SdkHttpMetadata\\\":{\\\"AllHttpHeaders\\\":{\\\"X-Amz-Executed-Version\\\":[\\\"$LATEST\\\"],\\\"x-amzn-Remapped-Content-Length\\\":[\\\"0\\\"],\\\"Connection\\\":[\\\"keep-alive\\\"],\\\"x-amzn-RequestId\\\":[\\\"c45e9f2c-afd0-4e5e-b434-1441b5e5772e\\\"],\\\"Content-Length\\\":[\\\"65\\\"],\\\"Date\\\":[\\\"Wed, 18 Nov 2020 14:41:29 GMT\\\"],\\\"X-Amzn-Trace-Id\\\":[\\\"root=1-5fb53299-74192d6a039648d809b12d94;sampled=0\\\"],\\\"Content-Type\\\":[\\\"application/json\\\"]},\\\"HttpHeaders\\\":{\\\"Connection\\\":\\\"keep-alive\\\",\\\"Content-Length\\\":\\\"65\\\",\\\"Content-Type\\\":\\\"application/json\\\",\\\"Date\\\":\\\"Wed, 18 Nov 2020 14:41:29 GMT\\\",\\\"X-Amz-Executed-Version\\\":\\\"$LATEST\\\",\\\"x-amzn-Remapped-Content-Length\\\":\\\"0\\\",\\\"x-amzn-RequestId\\\":\\\"c45e9f2c-afd0-4e5e-b434-1441b5e5772e\\\",\\\"X-Amzn-Trace-Id\\\":\\\"root=1-5fb53299-74192d6a039648d809b12d94;sampled=0\\\"},\\\"HttpStatusCode\\\":200},\\\"SdkResponseMetadata\\\":{\\\"RequestId\\\":\\\"c45e9f2c-afd0-4e5e-b434-1441b5e5772e\\\"},\\\"StatusCode\\\":200}\",\"outputDetails\":{\"included\":true}}}",
+            "attributes": {
+                "ApproximateReceiveCount": "1",
+                "SentTimestamp": "1605710490133",
+                "SenderId": "AIDAJXNJGGKNS7OSV23OI",
+                "ApproximateFirstReceiveTimestamp": "1605710490139"
+            },
+            "messageAttributes": {},
+            "md5OfBody": "0fc277d34563d30d2c0fb7c0df5aa5ed",
+            "eventSource": "aws:sqs",
+            "eventSourceARN": "arn:aws:sqs:us-east-1:278255066410:stepfunction-logger-test-StepfunctionEventLoggerEventLoggingQueue1-MLVS3ZMLC7YN",
+            "awsRegion": "us-east-1"
+        }
+    ]
+}
