@@ -94,7 +94,7 @@ export class StepFunctionEventLogger extends Construct {
             this, "SQSMessageProcessorFunction",
             {
                 runtime: lambda.Runtime.PYTHON_3_8,
-                code: lambda.Code.fromAsset(path.join(__dirname, "lambda")),
+                code: lambda.Code.fromAsset(path.join(__dirname, "lambda", "src")),
                 handler: "event_logger.handler",
                 timeout: Duration.minutes(1),
 
