@@ -1,4 +1,4 @@
-def step_functions_client():
+def stepfunction_client():
     import boto3
     from botocore.config import Config
 

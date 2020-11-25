@@ -9,7 +9,7 @@ from .utils.types import (
     SqsMessage,
     StepFunctionHistoryEvent,
 )
-from .utils.services import step_functions_client as sfn, dynamodb_resource as ddb
+from .utils.services import stepfunction_client as sfn, dynamodb_resource as ddb
 
 TIMESTAMP_FMT = "%Y-%m-%dT%H:%M%S.%f%z"
 
