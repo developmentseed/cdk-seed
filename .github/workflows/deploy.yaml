@@ -79,7 +79,7 @@ jobs:
 
       - name: Version 📃
         run: |
-          npx lerna run version ${GITHUB_REF#refs/tags/}
+          npx lerna version ${GITHUB_REF#refs/tags/}
       # TODO: Commit new version to git?
 
       - name: Publish to NPM 📢
