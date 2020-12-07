@@ -77,11 +77,19 @@ jobs:
         with:
           name: build
 
+     - name: Configure git credentials
+        uses: OleksiyRudenko/gha-git-credentials@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Version 📃
         run: |
-          npx lerna version ${GITHUB_REF#refs/tags/}
+          npx lerna version ${GITHUB_REF#refs/tags/} --create-release github
       # TODO: Commit new version to git?
 
       - name: Publish to NPM 📢
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
           npm run publish:npm

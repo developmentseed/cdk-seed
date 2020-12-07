@@ -27,7 +27,7 @@
     "build": "lerna run build",
     "build:watch": "nodemon --watch 'packages' --ext '.md' --exec 'lerna run --parallel build:watch'",
     "package": "lerna run package",
-    "publish:npm": "lerna run publish",
+    "publish:npm": "lerna run publish --yes",
     "docgen": "node ./scripts/docgen.js --output site/docs 'packages/**/.jsii'",
     "docgen:watch": "nodemon --exec 'npm run docgen' $(for f in packages/*/.jsii; do echo \"-w $f\"; done) --ext jsii --verbose",
     "eslint": "eslint .",
