@@ -82,14 +82,14 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Version 📃
-        run: |
-          npx lerna version ${GITHUB_REF#refs/tags/} --create-release github
-      # TODO: Commit new version to git?
+      # - name: Version 📃
+      #   run: |
+      #     npx lerna version ${GITHUB_REF#refs/tags/} --create-release github
+      # # TODO: Commit new version to git?
 
       - name: Publish to NPM 📢
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
           GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
-          npm run publish:npm
+          npm run publish:npm -- --yes
