@@ -2,7 +2,9 @@
 .jsii
 .npmignore
 */lib/*.js
+*/__tests__/*.js
 */lib/index.d.ts
+*/__tests__/*.d.ts
 API.md
 dist
 tsconfig.json
