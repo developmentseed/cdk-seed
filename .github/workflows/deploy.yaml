@@ -23,7 +23,7 @@ jobs:
 
       - name: Install 🔧
         run: |
-          npm install
+          npm ci
           npm run bootstrap
 
       - name: Test 🧪
@@ -92,5 +92,5 @@ jobs:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
           GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
-          npm install lerna
+          npm install --no-package-lock lerna
           npm run publish:npm -- --yes
